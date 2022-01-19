@@ -1,0 +1,691 @@
+{
+    "02930152":
+    {
+        "semantic":
+        [
+            {
+                "operation": "select",
+                "dependencies":
+                [],
+                "argument": "sky (2486325)"
+            },
+            {
+                "operation": "verify color",
+                "dependencies":
+                [
+                    0
+                ],
+                "argument": "dark"
+            }
+        ],
+        "entailed":
+        [
+            "02930160",
+            "02930158",
+            "02930159",
+            "02930154",
+            "02930155",
+            "02930156",
+            "02930153"
+        ],
+        "equivalent":
+        [
+            "02930152"
+        ],
+        "question": "Is the sky dark?",
+        "imageId": "2354786",
+        "isBalanced": true,
+        "groups":
+        {
+            "global": null,
+            "local": "06-sky_dark"
+        },
+        "answer": "yes",
+        "semanticStr": "select: sky (2486325)->verify color: dark [0]",
+        "annotations":
+        {
+            "answer":
+            {},
+            "question":
+            {
+                "2": "2486325"
+            },
+            "fullAnswer":
+            {
+                "2": "2486325"
+            }
+        },
+        "types":
+        {
+            "detailed": "verifyAttr",
+            "semantic": "attr",
+            "structural": "verify"
+        },
+        "fullAnswer": "Yes, the sky is dark."
+    },
+    "07333408":
+    {
+        "semantic":
+        [
+            {
+                "operation": "select",
+                "dependencies":
+                [],
+                "argument": "wall (722332)"
+            },
+            {
+                "operation": "filter color",
+                "dependencies":
+                [
+                    0
+                ],
+                "argument": "white"
+            },
+            {
+                "operation": "relate",
+                "dependencies":
+                [
+                    1
+                ],
+                "argument": "_,on,s (722335)"
+            },
+            {
+                "operation": "query",
+                "dependencies":
+                [
+                    2
+                ],
+                "argument": "name"
+            }
+        ],
+        "entailed":
+        [],
+        "equivalent":
+        [
+            "07333408"
+        ],
+        "question": "What is on the white wall?",
+        "imageId": "2375429",
+        "isBalanced": true,
+        "groups":
+        {
+            "global": "",
+            "local": "14-wall_on,s"
+        },
+        "answer": "pipe",
+        "semanticStr": "select: wall (722332)->filter color: white [0]->relate: _,on,s (722335) [1]->query: name [2]",
+        "annotations":
+        {
+            "answer":
+            {
+                "0": "722335"
+            },
+            "question":
+            {
+                "4:6": "722332"
+            },
+            "fullAnswer":
+            {
+                "1": "722335",
+                "5": "722332"
+            }
+        },
+        "types":
+        {
+            "detailed": "relS",
+            "semantic": "rel",
+            "structural": "query"
+        },
+        "fullAnswer": "The pipe is on the wall."
+    },
+    "07333405":
+    {
+        "semantic":
+        [
+            {
+                "operation": "select",
+                "dependencies":
+                [],
+                "argument": "pipe (722335)"
+            },
+            {
+                "operation": "verify color",
+                "dependencies":
+                [
+                    0
+                ],
+                "argument": "red"
+            }
+        ],
+        "entailed":
+        [
+            "07333406"
+        ],
+        "equivalent":
+        [
+            "07333405"
+        ],
+        "question": "Is that pipe red?",
+        "imageId": "2375429",
+        "isBalanced": true,
+        "groups":
+        {
+            "global": null,
+            "local": "06-pipe_red"
+        },
+        "answer": "no",
+        "semanticStr": "select: pipe (722335)->verify color: red [0]",
+        "annotations":
+        {
+            "answer":
+            {},
+            "question":
+            {
+                "2": "722335"
+            },
+            "fullAnswer":
+            {
+                "2": "722335"
+            }
+        },
+        "types":
+        {
+            "detailed": "verifyAttrC",
+            "semantic": "attr",
+            "structural": "verify"
+        },
+        "fullAnswer": "No, the pipe is white."
+    },
+    "15736264":
+    {
+        "semantic":
+        [
+            {
+                "operation": "select",
+                "dependencies":
+                [],
+                "argument": "clock (746851)"
+            },
+            {
+                "operation": "filter height",
+                "dependencies":
+                [
+                    0
+                ],
+                "argument": "tall"
+            },
+            {
+                "operation": "choose size",
+                "dependencies":
+                [
+                    1
+                ],
+                "argument": "large|small"
+            }
+        ],
+        "entailed":
+        [
+            "15736259",
+            "15736258",
+            "15736267",
+            "15736253",
+            "15736252",
+            "15736251",
+            "15736257",
+            "15736256",
+            "15736255",
+            "15736254",
+            "15736291",
+            "15736249"
+        ],
+        "equivalent":
+        [
+            "15736264"
+        ],
+        "question": "Is the tall clock small or large?",
+        "imageId": "2368326",
+        "isBalanced": true,
+        "groups":
+        {
+            "global": "size",
+            "local": "10c-clock_size"
+        },
+        "answer": "large",
+        "semanticStr": "select: clock (746851)->filter height: tall [0]->choose size: large|small [1]",
+        "annotations":
+        {
+            "answer":
+            {},
+            "question":
+            {
+                "2:4": "746851"
+            },
+            "fullAnswer":
+            {
+                "1": "746851"
+            }
+        },
+        "types":
+        {
+            "detailed": "chooseAttr",
+            "semantic": "attr",
+            "structural": "choose"
+        },
+        "fullAnswer": "The clock is large."
+    },
+    "111007521":
+    {
+        "semantic":
+        [
+            {
+                "operation": "select",
+                "dependencies":
+                [],
+                "argument": "shirt (4653737)"
+            },
+            {
+                "operation": "relate",
+                "dependencies":
+                [
+                    0
+                ],
+                "argument": "person,wearing,s (4653736)"
+            },
+            {
+                "operation": "query",
+                "dependencies":
+                [
+                    1
+                ],
+                "argument": "name"
+            }
+        ],
+        "entailed":
+        [],
+        "equivalent":
+        [
+            "111007521"
+        ],
+        "question": "Who is wearing a shirt?",
+        "imageId": "2331819",
+        "isBalanced": true,
+        "groups":
+        {
+            "global": "person",
+            "local": "14-shirt_wearing,s"
+        },
+        "answer": "girl",
+        "semanticStr": "select: shirt (4653737)->relate: person,wearing,s (4653736) [0]->query: name [1]",
+        "annotations":
+        {
+            "answer":
+            {
+                "0": "4653736"
+            },
+            "question":
+            {
+                "4": "4653737"
+            },
+            "fullAnswer":
+            {
+                "1": "4653736",
+                "5": "4653737"
+            }
+        },
+        "types":
+        {
+            "detailed": "relS",
+            "semantic": "rel",
+            "structural": "query"
+        },
+        "fullAnswer": "The girl is wearing a shirt."
+    },
+    "051004431":
+    {
+        "semantic":
+        [
+            {
+                "operation": "select",
+                "dependencies":
+                [],
+                "argument": "he (987642)"
+            },
+            {
+                "operation": "relate",
+                "dependencies":
+                [
+                    0
+                ],
+                "argument": "_,sleeping in,o (987643)"
+            },
+            {
+                "operation": "query",
+                "dependencies":
+                [
+                    1
+                ],
+                "argument": "name"
+            }
+        ],
+        "entailed":
+        [
+            "051004311",
+            "051004436",
+            "051004435",
+            "051004434",
+            "051004433",
+            "051004432"
+        ],
+        "equivalent":
+        [
+            "051004431"
+        ],
+        "question": "What do you think is he sleeping in?",
+        "imageId": "2324496",
+        "isBalanced": true,
+        "groups":
+        {
+            "global": "furniture",
+            "local": "14-man_sleeping in,o"
+        },
+        "answer": "bed",
+        "semanticStr": "select: he (987642)->relate: _,sleeping in,o (987643) [0]->query: name [1]",
+        "annotations":
+        {
+            "answer":
+            {
+                "0": "987643"
+            },
+            "question":
+            {
+                "5": "987642"
+            },
+            "fullAnswer":
+            {
+                "1": "987642",
+                "6": "987643"
+            }
+        },
+        "types":
+        {
+            "detailed": "relO",
+            "semantic": "rel",
+            "structural": "query"
+        },
+        "fullAnswer": "The man is sleeping in the bed."
+    },
+    "07452748":
+    {
+        "semantic":
+        [
+            {
+                "operation": "select",
+                "dependencies":
+                [],
+                "argument": "cheese (2879218)"
+            },
+            {
+                "operation": "verify rel",
+                "dependencies":
+                [
+                    0
+                ],
+                "argument": "food,to the left of,o (3362152)"
+            }
+        ],
+        "entailed":
+        [],
+        "equivalent":
+        [
+            "07452748"
+        ],
+        "question": "Is the cheese to the left of the food on the plate?",
+        "imageId": "2325360",
+        "isBalanced": true,
+        "groups":
+        {
+            "global": null,
+            "local": "13-cheese_food"
+        },
+        "answer": "yes",
+        "semanticStr": "select: cheese (2879218)->verify rel: food,to the left of,o (3362152) [0]",
+        "annotations":
+        {
+            "answer":
+            {},
+            "question":
+            {
+                "11": "3941619",
+                "8": "3362152",
+                "2": "2879218"
+            },
+            "fullAnswer":
+            {
+                "9": "3362152",
+                "2": "2879218"
+            }
+        },
+        "types":
+        {
+            "detailed": "relVerify",
+            "semantic": "rel",
+            "structural": "verify"
+        },
+        "fullAnswer": "Yes, the cheese is to the left of the food."
+    },
+    "051004435":
+    {
+        "semantic":
+        [
+            {
+                "operation": "select",
+                "dependencies":
+                [],
+                "argument": "he (987642)"
+            },
+            {
+                "operation": "relate",
+                "dependencies":
+                [
+                    0
+                ],
+                "argument": "furniture,sleeping in,o (987643)"
+            },
+            {
+                "operation": "query",
+                "dependencies":
+                [
+                    1
+                ],
+                "argument": "name"
+            }
+        ],
+        "entailed":
+        [
+            "051004311",
+            "051004436",
+            "051004434",
+            "051004433",
+            "051004432",
+            "051004431"
+        ],
+        "equivalent":
+        [
+            "051004435"
+        ],
+        "question": "What is the piece of furniture that he is sleeping in?",
+        "imageId": "2324496",
+        "isBalanced": true,
+        "groups":
+        {
+            "global": "furniture",
+            "local": "15-man_sleeping in,o"
+        },
+        "answer": "bed",
+        "semanticStr": "select: he (987642)->relate: furniture,sleeping in,o (987643) [0]->query: name [1]",
+        "annotations":
+        {
+            "answer":
+            {
+                "0": "987643"
+            },
+            "question":
+            {
+                "3:6": "987643",
+                "7": "987642"
+            },
+            "fullAnswer":
+            {
+                "1:4": "987643",
+                "6": "987643"
+            }
+        },
+        "types":
+        {
+            "detailed": "categoryRelO",
+            "semantic": "rel",
+            "structural": "query"
+        },
+        "fullAnswer": "The piece of furniture is a bed."
+    },
+    "19274091":
+    {
+        "semantic":
+        [
+            {
+                "operation": "select",
+                "dependencies":
+                [],
+                "argument": "chair (219758)"
+            },
+            {
+                "operation": "relate",
+                "dependencies":
+                [
+                    0
+                ],
+                "argument": "furniture,to the right of,s (219755)"
+            },
+            {
+                "operation": "query",
+                "dependencies":
+                [
+                    1
+                ],
+                "argument": "name"
+            }
+        ],
+        "entailed":
+        [
+            "19274090",
+            "19274092",
+            "19274064",
+            "19274089",
+            "19274228"
+        ],
+        "equivalent":
+        [
+            "19274091"
+        ],
+        "question": "What kind of furniture is to the right of the chair?",
+        "imageId": "2410353",
+        "isBalanced": true,
+        "groups":
+        {
+            "global": "furniture",
+            "local": "15-chair_to the right of,s"
+        },
+        "answer": "sofa",
+        "semanticStr": "select: chair (219758)->relate: furniture,to the right of,s (219755) [0]->query: name [1]",
+        "annotations":
+        {
+            "answer":
+            {
+                "0": "219755"
+            },
+            "question":
+            {
+                "3": "219755"
+            },
+            "fullAnswer":
+            {
+                "1:4": "219755",
+                "6": "219755"
+            }
+        },
+        "types":
+        {
+            "detailed": "categoryRelS",
+            "semantic": "rel",
+            "structural": "query"
+        },
+        "fullAnswer": "The piece of furniture is a sofa."
+    },
+    "00974084":
+    {
+        "semantic":
+        [
+            {
+                "operation": "select",
+                "dependencies":
+                [],
+                "argument": "spatula (3104528)"
+            },
+            {
+                "operation": "filter material",
+                "dependencies":
+                [
+                    0
+                ],
+                "argument": "steel"
+            },
+            {
+                "operation": "verify vposition",
+                "dependencies":
+                [
+                    1
+                ],
+                "argument": "top"
+            }
+        ],
+        "entailed":
+        [
+            "00974085",
+            "00974083"
+        ],
+        "equivalent":
+        [
+            "00974084"
+        ],
+        "question": "Is the steel spatula in the top of the image?",
+        "imageId": "2322142",
+        "isBalanced": true,
+        "groups":
+        {
+            "global": null,
+            "local": "06-spatula_top"
+        },
+        "answer": "no",
+        "semanticStr": "select: spatula (3104528)->filter material: steel [0]->verify vposition: top [1]",
+        "annotations":
+        {
+            "answer":
+            {},
+            "question":
+            {
+                "2:4": "3104528"
+            },
+            "fullAnswer":
+            {
+                "2": "3104528"
+            }
+        },
+        "types":
+        {
+            "detailed": "positionVerifyC",
+            "semantic": "attr",
+            "structural": "verify"
+        },
+        "fullAnswer": "No, the spatula is in the bottom of the image."
+    }
+}
