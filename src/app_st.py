@@ -1,3 +1,4 @@
+import numpy as np
 import streamlit as st
 import pandas as pd
 from PIL import Image
@@ -8,7 +9,6 @@ import os
 st.set_page_config(page_title="Interactive Data-Explorer", page_icon="chart_with_upwards_trend",
                    initial_sidebar_state="expanded")
 st.write('<style>div.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
-
 
 st.title("Interactive Data-Explorer")
 st.write("""
@@ -25,11 +25,15 @@ columns = ['imageId', 'question', 'answer', 'fullAnswer', 'groups', 'types']
 base_df = pd.read_json(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", select_dataset + ".json")),
                        orient="index")
 base_df = base_df[columns]
+base_df['wordCount'] = 0
+
+for i, row in base_df.iterrows():
+    base_df.at[i, 'wordCount'] = int(len(row['question'].split(" ")))
 
 # Checkboxes
 
-selection = st.radio(label="Please select in which columns you want to search", options=('Questions', 'Answers', 'Both'))
-
+selection = st.radio(label="Please select in which columns you want to search",
+                     options=('Questions', 'Answers', 'Both'))
 
 # Search by Keywords or phrases
 
@@ -70,4 +74,3 @@ else:
 if st.button("Reset"):
     st.write("Sadly, that does not work (Yet)")
     st.experimental_rerun()
-
