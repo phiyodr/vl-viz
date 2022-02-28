@@ -12,7 +12,7 @@ st.write('<style>div.row-widget.stRadio > div{flex-direction:row;}</style>', uns
 
 st.title("Interactive Data-Explorer")
 st.write("""
-## This is Testversion v0.3.2
+## This is Testversion v0.3.3
 """)
 st.markdown("***")
 
@@ -43,6 +43,22 @@ for i, row in base_df.iterrows():
 
 base_df.drop(['groups', 'types'], axis=1, inplace=True)
 
+wordList = [[], [], [], [], []]
+
+# Get lists for multiselect
+
+for i in base_df.index.array:
+    if base_df.loc[i, 'global'] not in wordList[0]:
+        wordList[0].append(base_df.loc[i, 'global'])
+    if base_df.loc[i, 'local'] not in wordList[1]:
+        wordList[1].append(base_df.loc[i, 'local'])
+    if base_df.loc[i, 'detailed'] not in wordList[2]:
+        wordList[2].append(base_df.loc[i, 'detailed'])
+    if base_df.loc[i, 'semantic'] not in wordList[3]:
+        wordList[3].append(base_df.loc[i, 'semantic'])
+    if base_df.loc[i, 'structural'] not in wordList[4]:
+        wordList[4].append(base_df.loc[i, 'structural'])
+
 
 # Checkboxes
 
@@ -50,16 +66,18 @@ selection = st.radio(label="Please select in which columns you want to search",
                      options=('Questions', 'Answers', 'Both', 'None'), index=3)
 
 keyphrase = st.text_input("Search for Keywords in Question and Answers")
-options = st.multiselect('Search additional columns', ['global', 'local', 'detailed', 'semantic', 'structural'])
-keywords = st.text_input("Enter Keywords")
-words = keywords.split()
+global_key = st.multiselect("Search in 'global'", wordList[0])
+local_key = st.multiselect("Search in 'local'", wordList[1])
+detailed_key = st.multiselect("Search in 'detailed'", wordList[2])
+semantic_key = st.multiselect("Search in 'semantic'", wordList[3])
+struc_key = st.multiselect("Search in 'structural'", wordList[4])
 
 
 # Search by Keywords or phrases
 
 sorted_df = pd.DataFrame()
 for index, row in base_df.iterrows():
-    #Search for Keywords
+
     if selection != 'None':
         if selection == "Questions":
             if keyphrase.lower() in row['question'].lower():
@@ -71,15 +89,47 @@ for index, row in base_df.iterrows():
             if keyphrase.lower() in row['question'].lower() or keyphrase.lower() in row['answer'].lower():
                 sorted_df = sorted_df.append(row)
 
-    if options is not None:
-        for key in options:
-            for word in words:
-                if word.lower() in row[key].lower():
-                    if index not in sorted_df.index.values:
-                        sorted_df = sorted_df.append(row)
-
 if sorted_df.empty and selection == 'None':
     sorted_df = base_df
+
+
+tmp_df = tmp_df_out = pd.DataFrame()
+if global_key or local_key or detailed_key or semantic_key or struc_key:
+
+    if global_key:
+        for i in sorted_df.index.array:
+            if sorted_df.loc[i, 'global'] in global_key:
+                tmp_df = tmp_df.append(sorted_df.loc[i])
+        tmp_df_out = tmp_df.copy()
+    else:
+        tmp_df_out = sorted_df.copy()
+    tmp_df = pd.DataFrame()
+
+    if local_key:
+        for i in tmp_df_out.index.array:
+            if tmp_df_out.loc[i, 'local'] in local_key:
+                tmp_df = tmp_df.append(sorted_df.loc[i])
+        tmp_df_out = tmp_df.copy()
+    tmp_df = pd.DataFrame()
+
+    if detailed_key:
+        for i in tmp_df_out.index.array:
+            if tmp_df_out.loc[i, 'detailed'] in detailed_key:
+                tmp_df = tmp_df.append(sorted_df.loc[i])
+        tmp_df_out = tmp_df.copy()
+
+    if semantic_key:
+        for i in tmp_df_out.index.array:
+            if tmp_df_out.loc[i, 'semantic'] in semantic_key:
+                tmp_df = tmp_df.append(sorted_df.loc[i])
+        tmp_df_out = tmp_df.copy()
+
+    if struc_key:
+        for i in tmp_df_out.index.array:
+            if tmp_df_out.loc[i, 'structural'] in struc_key:
+                tmp_df = tmp_df.append(sorted_df.loc[i])
+        tmp_df_out = tmp_df.copy()
+    sorted_df = tmp_df_out.copy()
 
 if not sorted_df.empty:
     displayed_df = sorted_df
