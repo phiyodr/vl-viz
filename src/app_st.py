@@ -3,62 +3,72 @@ import streamlit as st
 import pandas as pd
 from PIL import Image
 import os
+import streamlit.components.v1 as components
 
 # Set Page-Settings
 
 st.set_page_config(page_title="Interactive Data-Explorer", page_icon="chart_with_upwards_trend",
-                   initial_sidebar_state="expanded")
+                   initial_sidebar_state="expanded", layout="wide")
 st.write('<style>div.row-widget.stRadio > div{flex-direction:row;}</style>', unsafe_allow_html=True)
 
 st.title("Interactive Data-Explorer")
 st.write("""
 ## This is Testversion v0.3.3
 """)
-st.markdown("***")
+st.markdown("""---""")
+st.write("#")
 
 # Select and load Dataset
 
 select_dataset = st.sidebar.selectbox(label="Select the Dataset to display", options=["gqa_train_demo"])
-
 pd.set_option('display.max_colwidth', None)
-columns = ['imageId', 'question', 'answer', 'fullAnswer', 'groups', 'types']
-base_df = pd.read_json(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", select_dataset + ".json")),
-                       orient="index")
-base_df = base_df[columns]
-base_df['wordCount'] = 0
-base_df['global'] = base_df['local'] = base_df['detailed'] = base_df['semantic'] = base_df['structural'] = ''
 
-for i, row in base_df.iterrows():
-    base_df.at[i, 'wordCount'] = len(row['question'].split(" "))
-    base_df.at[i, 'global'] = row['groups']['global'] if (
-            row['groups']['global'] is not None and bool(row['groups']['global']) is True) else 'No Entry'
-    base_df.at[i, 'local'] = row['groups']['local'] if (
-            row['groups']['local'] is not None and bool(row['groups']['local']) is True) else 'No Entry'
-    base_df.at[i, 'detailed'] = row['types']['detailed'] if (
-            row['types']['detailed'] is not None and bool(row['types']['detailed']) is True) else 'No Entry'
-    base_df.at[i, 'semantic'] = row['types']['semantic'] if (
+
+
+@st.cache
+def load_dataset(dataset):
+    columns = ['imageId', 'question', 'answer', 'fullAnswer', 'groups', 'types']
+    base_df = pd.read_json(
+        os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data", dataset + ".json")),
+        orient="index")
+    base_df = base_df[columns]
+    base_df['wordCount'] = 0
+    base_df['global'] = base_df['local'] = base_df['detailed'] = base_df['semantic'] = base_df['structural'] = ''
+
+    for i, row in base_df.iterrows():
+        base_df.at[i, 'wordCount'] = len(row['question'].split(" "))
+        base_df.at[i, 'global'] = row['groups']['global'] if (
+                row['groups']['global'] is not None and bool(row['groups']['global']) is True) else 'No Entry'
+        base_df.at[i, 'local'] = row['groups']['local'] if (
+                row['groups']['local'] is not None and bool(row['groups']['local']) is True) else 'No Entry'
+        base_df.at[i, 'detailed'] = row['types']['detailed'] if (
+                row['types']['detailed'] is not None and bool(row['types']['detailed']) is True) else 'No Entry'
+        base_df.at[i, 'semantic'] = row['types']['semantic'] if (
                 row['types']['semantic'] is not None and bool(row['types']['semantic']) is True) else 'No Entry'
-    base_df.at[i, 'structural'] = row['types']['structural'] if (
+        base_df.at[i, 'structural'] = row['types']['structural'] if (
                 row['types']['structural'] is not None and bool(row['types']['structural']) is True) else 'No Entry'
 
-base_df.drop(['groups', 'types'], axis=1, inplace=True)
+    base_df.drop(['groups', 'types'], axis=1, inplace=True)
 
-wordList = [[], [], [], [], []]
+    wordList = [[], [], [], [], []]
 
-# Get lists for multiselect
+    # Get lists for multiselect
 
-for i in base_df.index.array:
-    if base_df.loc[i, 'global'] not in wordList[0]:
-        wordList[0].append(base_df.loc[i, 'global'])
-    if base_df.loc[i, 'local'] not in wordList[1]:
-        wordList[1].append(base_df.loc[i, 'local'])
-    if base_df.loc[i, 'detailed'] not in wordList[2]:
-        wordList[2].append(base_df.loc[i, 'detailed'])
-    if base_df.loc[i, 'semantic'] not in wordList[3]:
-        wordList[3].append(base_df.loc[i, 'semantic'])
-    if base_df.loc[i, 'structural'] not in wordList[4]:
-        wordList[4].append(base_df.loc[i, 'structural'])
+    for i in base_df.index.array:
+        if base_df.loc[i, 'global'] not in wordList[0]:
+            wordList[0].append(base_df.loc[i, 'global'])
+        if base_df.loc[i, 'local'] not in wordList[1]:
+            wordList[1].append(base_df.loc[i, 'local'])
+        if base_df.loc[i, 'detailed'] not in wordList[2]:
+            wordList[2].append(base_df.loc[i, 'detailed'])
+        if base_df.loc[i, 'semantic'] not in wordList[3]:
+            wordList[3].append(base_df.loc[i, 'semantic'])
+        if base_df.loc[i, 'structural'] not in wordList[4]:
+            wordList[4].append(base_df.loc[i, 'structural'])
+    return base_df, wordList
 
+
+base_df, wordList = load_dataset(select_dataset)
 
 # Checkboxes
 
@@ -66,12 +76,25 @@ selection = st.radio(label="Please select in which columns you want to search",
                      options=('Questions', 'Answers', 'Both', 'None'), index=3)
 
 keyphrase = st.text_input("Search for Keywords in Question and Answers")
-global_key = st.multiselect("Search in 'global'", wordList[0])
-local_key = st.multiselect("Search in 'local'", wordList[1])
-detailed_key = st.multiselect("Search in 'detailed'", wordList[2])
-semantic_key = st.multiselect("Search in 'semantic'", wordList[3])
-struc_key = st.multiselect("Search in 'structural'", wordList[4])
 
+st.write("#")
+
+with st.expander("Advanced Search"):
+    col1, col2 = st.columns((1, 1))
+    with col1:
+        global_key = st.multiselect("Search in 'global'", wordList[0])
+    with col2:
+        local_key = st.multiselect("Search in 'local'", wordList[1])
+
+    col3, col4, col5 = st.columns((1, 1, 1))
+    with col3:
+        detailed_key = st.multiselect("Search in 'detailed'", wordList[2])
+    with col4:
+        semantic_key = st.multiselect("Search in 'semantic'", wordList[3])
+    with col5:
+        struc_key = st.multiselect("Search in 'structural'", wordList[4])
+
+st.write("#")
 
 # Search by Keywords or phrases
 
@@ -91,7 +114,6 @@ for index, row in base_df.iterrows():
 
 if sorted_df.empty and selection == 'None':
     sorted_df = base_df
-
 
 tmp_df = tmp_df_out = pd.DataFrame()
 if global_key or local_key or detailed_key or semantic_key or struc_key:
@@ -137,6 +159,9 @@ if not sorted_df.empty:
 
     # Display Selectbox with Data from Dataframe or Searchresults
 
+    st.write("#")
+    st.write("#")
+
     display_dataset = st.selectbox("Select Dataset", (displayed_df.index.values.tolist()))
 
     # st.dataframe(data = my_df)
@@ -144,14 +169,19 @@ if not sorted_df.empty:
     if display_dataset:
         image = base_df["imageId"][display_dataset]
         fullImgPath = os.path.abspath(
-            os.path.join(os.path.dirname(__file__), "..", "data", "gqa_train_demo", str(image)) + ".jpg")
+            os.path.join(os.path.dirname(__file__), "..", "data", select_dataset, str(image)) + ".jpg")
         image = Image.open(fullImgPath)
-        st.text("Question: " + base_df["question"][display_dataset])
-        st.text("Answer: " + base_df["fullAnswer"][display_dataset] + "   (" + base_df["answer"][display_dataset] + ")")
-        st.image(image)
+
+        col6, col7 = st.columns((1, 1))
+        with col6:
+            st.image(image, use_column_width='always')
+        with col7:
+             st.text("Question: " + base_df["question"][display_dataset])
+             st.text("Answer: " + base_df["fullAnswer"][display_dataset] + "   (" + base_df["answer"][display_dataset] + ")")
+
 else:
     st.error("No Dataset fit your requirements.")
 
-if st.button("Reset"):
-    st.write("Sadly, that does not work (Yet)")
-    st.experimental_rerun()
+#if st.button("Reset"):
+#    st.write("Sadly, that does not work (Yet)")
+#    st.experimental_rerun()
